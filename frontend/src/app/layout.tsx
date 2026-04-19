@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "Deeksha Classes — JEE Coaching Laheria Sarai",
     description:
       "Best coaching for IIT JEE Mains & Advanced. Join today!",
-    images: ["/logo_icon.png"], // SAME IMAGE
+    images: ["/logo_icon.jpg"], // SAME IMAGE
   },
 
   icons: {
