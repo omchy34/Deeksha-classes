@@ -146,9 +146,9 @@ const COURSES = [
 ];
 
 const LEVEL_META: Record<string, { bg: string; text: string }> = {
-  Foundation:   { bg: "#dbeafe", text: "#1e40af" },
+  Foundation: { bg: "#dbeafe", text: "#1e40af" },
   Intermediate: { bg: "#fef9c3", text: "#854d0e" },
-  Advanced:     { bg: "#fce7f3", text: "#9d174d" },
+  Advanced: { bg: "#fce7f3", text: "#9d174d" },
   "All Levels": { bg: "#f1f5f9", text: "#475569" },
 };
 
@@ -245,7 +245,7 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
       </div>
 
       {/* Body */}
-      <div style={{ padding: "22px 24px 0", flex: 1, display: "flex", flexDirection: "column" }}>
+      <div style={{ padding: "22px 24px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
         <h3 style={{
           fontSize: 17, fontWeight: 700, color: "#111827",
           lineHeight: 1.3, marginBottom: 6,
@@ -273,64 +273,81 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
         </div>
 
         {/* Features */}
-        {/* Features */}
-<div style={{ marginBottom: 22 }}>
-  <div style={{
-    fontSize: 9, fontWeight: 800, textTransform: "uppercase",
-    letterSpacing: "1.2px", color: "#9ca3af", marginBottom: 10,
-  }}>
-    Programme Highlights
-  </div>
+        <div style={{ marginBottom: 22 }}>
+          <div style={{
+            fontSize: 9, fontWeight: 800, textTransform: "uppercase",
+            letterSpacing: "1.2px", color: "#9ca3af", marginBottom: 10,
+          }}>
+            Programme Highlights
+          </div>
 
-  {course.features.map((f, i) => (
-    <div key={i} style={{
-      display: "flex",
-      gap: 9,
-      alignItems: "flex-start",
-      marginBottom: 8,
-    }}>
-      <span style={{
-        width: 15,
-        height: 15,
-        borderRadius: "50%",
-        background: course.accentLight,
-        color: course.accent,
-        fontSize: 8,
-        fontWeight: 900,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-        marginTop: 2,
-      }}>
-        ✓
-      </span>
-      <span style={{
-        fontSize: 12.5,
-        color: "#374151",
-        lineHeight: 1.55
-      }}>
-        {f}
-      </span>
-    </div>
-  ))}
-</div>
+          {course.features.map((f, i) => (
+            <div key={i} style={{
+              display: "flex",
+              gap: 9,
+              alignItems: "flex-start",
+              marginBottom: 8,
+            }}>
+              <span style={{
+                width: 15,
+                height: 15,
+                borderRadius: "50%",
+                background: course.accentLight,
+                color: course.accent,
+                fontSize: 8,
+                fontWeight: 900,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                marginTop: 2,
+              }}>
+                ✓
+              </span>
+              <span style={{
+                fontSize: 12.5,
+                color: "#374151",
+                lineHeight: 1.55,
+              }}>
+                {f}
+              </span>
+            </div>
+          ))}
+        </div>
 
-
-        {/* Footer */}
-        <div style={{ paddingTop: 14, borderTop: "1px solid #f1f5f9", marginTop: "auto", display: "flex", gap: 8 }}>
+        {/* Action Buttons — single row, pushed to bottom */}
+        <div style={{
+          paddingTop: 14,
+          borderTop: "1px solid #f1f5f9",
+          marginTop: "auto",
+          display: "flex",
+          gap: 8,
+        }}>
           <button
             onClick={() => router.push("/Admission")}
             style={{
               flex: 1,
               background: course.accent,
-              color: "#ffffff", border: "none", padding: "12px 16px", borderRadius: 10,
-              fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700,
-              cursor: "pointer", letterSpacing: "0.2px", boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+              color: "#ffffff",
+              border: "none",
+              padding: "12px 16px",
+              borderRadius: 10,
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.2px",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
               transition: "opacity 0.2s, transform 0.2s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+            onMouseEnter={e => {
+              e.currentTarget.style.opacity = "0.88";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.opacity = "1";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
           >
             Enroll Now →
           </button>
@@ -339,53 +356,31 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
             style={{
               flex: 1,
               background: "transparent",
-              color: "#4f46e5", border: "1.5px solid #4f46e5", padding: "12px 16px", borderRadius: 10,
-              fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700,
-              cursor: "pointer", letterSpacing: "0.2px",
+              color: "#4f46e5",
+              border: "1.5px solid #4f46e5",
+              padding: "12px 16px",
+              borderRadius: 10,
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: "pointer",
+              letterSpacing: "0.2px",
               transition: "background 0.2s, color 0.2s, transform 0.2s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = "#4f46e5"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#4f46e5"; e.currentTarget.style.transform = "translateY(0)"; }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = "#4f46e5";
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "#4f46e5";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
           >
             View Demo ▶
           </button>
-
         </div>
-      </div>
-
-      {/* Footer */}
-      <div style={{
-        padding: "16px 24px 22px",
-        borderTop: "1px solid #f3f4f6",
-        marginTop: "auto",
-      }}>
-        <button
-          onClick={() => router.push("/Admission")}
-          style={{
-            width: "100%",
-            background: course.accent,
-            color: "#fff",
-            border: "none",
-            borderRadius: 9,
-            padding: "13px 20px",
-            fontSize: 13,
-            fontWeight: 700,
-            cursor: "pointer",
-            letterSpacing: "0.3px",
-            fontFamily: "inherit",
-            transition: "all 0.2s",
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.opacity = "0.88";
-            e.currentTarget.style.transform = "translateY(-1px)";
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.opacity = "1";
-            e.currentTarget.style.transform = "none";
-          }}
-        >
-          Enrol Now →
-        </button>
       </div>
     </div>
   );
@@ -577,10 +572,10 @@ export default function CoursesPage() {
             </p>
             <div className="cr-stats">
               {[
-                { n: "6",    l: "Academic Programmes" },
+                { n: "6", l: "Academic Programmes" },
                 { n: "100+", l: "Students Enrolled" },
-                { n: "97%",  l: "Success Rate" },
-                { n: "10+",  l: "Years of Excellence" },
+                { n: "97%", l: "Success Rate" },
+                { n: "10+", l: "Years of Excellence" },
               ].map(s => (
                 <div key={s.l} className="cr-stat">
                   <span className="cr-stat-n">{s.n}</span>
@@ -645,10 +640,10 @@ export default function CoursesPage() {
           </div>
           <div className="cr-chips">
             {[
-              { icon: "💻", label: "100% Online Delivery",    sub: "Learn from any location" },
+              { icon: "💻", label: "100% Online Delivery", sub: "Learn from any location" },
               { icon: "🎥", label: "Live Interactive Classes", sub: "Real-time instruction" },
-              { icon: "📖", label: "Curated Study Material",   sub: "DPP sheets & resources" },
-              { icon: "💬", label: "Dedicated Doubt Support",  sub: "Available at all times" },
+              { icon: "📖", label: "Curated Study Material", sub: "DPP sheets & resources" },
+              { icon: "💬", label: "Dedicated Doubt Support", sub: "Available at all times" },
             ].map(c => (
               <div key={c.label} className="cr-chip">
                 <div className="cr-chip-icon">{c.icon}</div>
