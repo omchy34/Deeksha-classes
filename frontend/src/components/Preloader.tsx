@@ -62,14 +62,15 @@ export default function Preloader() {
 
           {/* Book / graduation cap icon inside ring */}
           <div className="preloader-icon">
-           <Image src="/logo_icon.png" alt="Logo" width={80} height={80} />
+           <Image src="/logo_icon.jpg" alt="Logo" className="rounded-full" width={80} height={80} />
           </div>
         </div>
 
         {/* Brand name */}
         <h1 className="preloader-title">
-          The English Center
+          Deeksha Classes 
         </h1>
+        <h5 className="text-amber-50">सा विद्या या विमुक्तये</h5>
         <p className="preloader-subtitle">Loading your experience…</p>
 
         {/* Dot loader */}

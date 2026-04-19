@@ -1,313 +1,605 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// ── Types (match mongoose model) ──────────────────────────────────────────────
-interface Course {
-  _id: string;
-  category: "Spoken English" | "IELTS / PTE / TOEFL" | "Grammar & Writing" | "Business English" | "Personality Development";
-  title: string;
-  tagline: string;
-  desc: string;
-  price: string;
-  originalPrice?: string;
-  isFree: boolean;
-  level: "Beginner" | "Intermediate" | "Advanced" | "All Levels";
-  rating: number;
-  language: string;
-  certificate: boolean;
-  icon: string;
-  bgFrom: string;
-  bgTo: string;
-  tag?: string;
-  features: string[];
-}
+// ── Static course data ────────────────────────────────────────────────────────
+const COURSES = [
+  {
+    id: "11-foundation",
+    badge: "11th Foundation",
+    title: "Class 11 Foundation Programme",
+    tagline: "Laying the groundwork for JEE excellence",
+    desc: "A rigorous full-year programme aligned with CBSE/ISC board curriculum and JEE fundamentals. Designed to build conceptual clarity in Physics, Chemistry & Mathematics from first principles.",
+    duration: "1 Year",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "Foundation",
+    features: [
+      "Complete Class 11 NCERT + JEE concept coverage",
+      "Weekly assessments & detailed performance reports",
+      "Structured doubt-resolution sessions",
+      "Comprehensive study material & DPP sheets",
+      "Board examination preparatory modules",
+    ],
+    icon: "⚛️",
+    accent: "#2563eb",
+    accentLight: "#eff6ff",
+    tag: "Best Start",
+    tagBg: "#2563eb",
+    certificate: true,
+  },
+  {
+    id: "12-boards-jee",
+    badge: "12th + JEE Main",
+    title: "Class 12 Boards + JEE Main",
+    tagline: "Dual-track preparation for maximum outcomes",
+    desc: "A strategically integrated programme enabling simultaneous preparation for Class 12 Boards and JEE Main. Our proven dual-track pedagogy ensures academic excellence on both fronts.",
+    duration: "1 Year",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "Intermediate",
+    features: [
+      "Board-aligned syllabus with JEE Main mapping",
+      "Chapter-wise JEE Main previous year questions",
+      "Full-length mock test series (JEE pattern)",
+      "Individual performance analytics & feedback",
+      "Rank-accelerator sessions pre-examination",
+    ],
+    icon: "🎯",
+    accent: "#059669",
+    accentLight: "#ecfdf5",
+    tag: "Most Popular",
+    tagBg: "#059669",
+    certificate: true,
+  },
+  {
+    id: "jee-advanced",
+    badge: "JEE Advanced",
+    title: "JEE Advanced Intensive Programme",
+    tagline: "Precision training for India's most competitive exam",
+    desc: "Engineered exclusively for students targeting the Indian Institutes of Technology. This programme delivers advanced problem-solving frameworks, rigorous test practice, and strategic rank improvement methodologies.",
+    duration: "1 Year",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "Advanced",
+    features: [
+      "Advanced-level problem-solving workshops",
+      "20+ full-length mock tests (JEE Advanced pattern)",
+      "20-year IIT JEE PYQ analysis with solutions",
+      "Personalised rank improvement roadmap",
+      "Dedicated one-on-one mentorship sessions",
+    ],
+    icon: "🏆",
+    accent: "#d97706",
+    accentLight: "#fffbeb",
+    tag: "Top Rated",
+    tagBg: "#d97706",
+    certificate: true,
+  },
+  {
+    id: "2-year-integrated",
+    badge: "2-Year Integrated",
+    title: "Integrated 2-Year Programme (11th + 12th)",
+    tagline: "The complete academic journey — from foundation to IIT",
+    desc: "Our flagship long-format programme commencing from Class 11. A structured, stage-wise curriculum that systematically advances students from fundamental concepts to IIT-level mastery over two academic years.",
+    duration: "2 Years",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "All Levels",
+    features: [
+      "Comprehensive 11th + 12th syllabus (Board + JEE)",
+      "Progressive topic sequencing with milestone reviews",
+      "Monthly academic progress conferences with guardians",
+      "Unlimited doubt resolution access",
+      "JEE Main + Advanced full mock test series",
+    ],
+    icon: "🚀",
+    accent: "#7c3aed",
+    accentLight: "#f5f3ff",
+    tag: "Best Value",
+    tagBg: "#7c3aed",
+    certificate: true,
+  },
+  {
+    id: "crash-jee-main",
+    badge: "Crash Course",
+    title: "JEE Main Intensive Crash Course",
+    tagline: "90-day accelerated revision — no syllabus left behind",
+    desc: "A high-velocity 3-month preparatory sprint covering the complete JEE Main syllabus. Designed for students seeking rapid conceptual revision, focused problem-solving, and effective last-phase examination strategy.",
+    duration: "3 Months",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "Intermediate",
+    features: [
+      "Full JEE Main syllabus coverage in 90 days",
+      "High-weightage chapter prioritisation framework",
+      "Daily practice problems with detailed solutions",
+      "10 full-length mock tests with in-depth analysis",
+      "Examination strategy & time management workshops",
+    ],
+    icon: "⚡",
+    accent: "#db2777",
+    accentLight: "#fdf2f8",
+    tag: "Rapid Prep",
+    tagBg: "#db2777",
+    certificate: false,
+  },
+  {
+    id: "dropper-batch",
+    badge: "Repeater Batch",
+    title: "Repeater Batch — JEE Intensive",
+    tagline: "Targeted remediation. Stronger strategy. Better rank.",
+    desc: "A focused programme for students re-appearing for JEE. Built around comprehensive gap analysis, targeted weak-area remediation, and the psychological conditioning required to perform at peak capacity.",
+    duration: "1 Year",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    level: "Advanced",
+    features: [
+      "In-depth diagnostic assessment of previous attempt",
+      "Customised study plan tailored per student",
+      "Targeted intervention for identified weak areas",
+      "JEE Main + JEE Advanced complete coverage",
+      "Confidence-building & exam temperament coaching",
+    ],
+    icon: "🔄",
+    accent: "#0284c7",
+    accentLight: "#f0f9ff",
+    tag: "Comeback",
+    tagBg: "#0284c7",
+    certificate: true,
+  },
+];
 
-// ── Color maps ────────────────────────────────────────────────────────────────
-const categoryColors: Record<Course["category"], { bg: string; text: string }> = {
-  "Spoken English": { bg: "#ede9fe", text: "#5b21b6" },
-  "IELTS / PTE / TOEFL": { bg: "#d1fae5", text: "#065f46" },
-  "Grammar & Writing": { bg: "#dbeafe", text: "#1d4ed8" },
-  "Business English": { bg: "#fef3c7", text: "#b45309" },
-  "Personality Development": { bg: "#fce7f3", text: "#9d174d" },
-};
-const levelColors: Record<string, { bg: string; text: string }> = {
-  Beginner: { bg: "#dcfce7", text: "#166534" },
+const LEVEL_META: Record<string, { bg: string; text: string }> = {
+  Foundation:   { bg: "#dbeafe", text: "#1e40af" },
   Intermediate: { bg: "#fef9c3", text: "#854d0e" },
-  Advanced: { bg: "#fee2e2", text: "#991b1b" },
+  Advanced:     { bg: "#fce7f3", text: "#9d174d" },
   "All Levels": { bg: "#f1f5f9", text: "#475569" },
 };
-const tagColors: Record<string, { bg: string; color: string }> = {
-  "Most Popular": { bg: "#fbbf24", color: "#1a2340" },
-  "Bestseller": { bg: "#4f46e5", color: "#ffffff" },
-  "Top Rated": { bg: "#10b981", color: "#ffffff" },
-  "Premium": { bg: "#f59e0b", color: "#1a2340" },
-  "Most Enrolled": { bg: "#8b5cf6", color: "#ffffff" },
-  "New": { bg: "#0ea5e9", color: "#ffffff" },
-  "Free": { bg: "#ef4444", color: "#ffffff" },
-  "Trending": { bg: "#ec4899", color: "#ffffff" },
-};
 
+const FILTERS = ["All", "11th", "12th", "JEE Main", "JEE Advanced", "Crash Course"];
 
-
-// ── Star rating ───────────────────────────────────────────────────────────────
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-      <div style={{ display: "flex", gap: 1 }}>
-        {[1, 2, 3, 4, 5].map(s => (
-          <span key={s} style={{ fontSize: 11, color: s <= Math.floor(rating) ? "#fbbf24" : "#d1d5db" }}>★</span>
-        ))}
-      </div>
-      <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 11, fontWeight: 700, color: "#0f0c29" }}>
-        {rating.toFixed(1)}
-      </span>
-    </div>
-  );
+function filterCourses(courses: typeof COURSES, filter: string) {
+  if (filter === "All") return courses;
+  if (filter === "11th") return courses.filter(c => c.id.includes("11") || c.id === "2-year-integrated");
+  if (filter === "12th") return courses.filter(c => c.id.includes("12") || c.id === "2-year-integrated");
+  if (filter === "JEE Main") return courses.filter(c => ["crash-jee-main", "12-boards-jee", "dropper-batch", "2-year-integrated"].includes(c.id));
+  if (filter === "JEE Advanced") return courses.filter(c => ["jee-advanced", "2-year-integrated", "dropper-batch"].includes(c.id));
+  if (filter === "Crash Course") return courses.filter(c => c.id === "crash-jee-main");
+  return courses;
 }
 
-// ── Skeleton card ─────────────────────────────────────────────────────────────
-function SkeletonCard() {
-  return (
-    <div style={{ background: "#fff", borderRadius: 20, overflow: "hidden", border: "1px solid rgba(79,70,229,0.08)" }}>
-      <div style={{ height: 120, background: "linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%)", backgroundSize: "200% 100%", animation: "cpShimmer 1.5s infinite" }} />
-      <div style={{ padding: "18px 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-        <div style={{ height: 12, width: "50%", borderRadius: 6, background: "#f0f0f0" }} />
-        <div style={{ height: 20, width: "80%", borderRadius: 6, background: "#f0f0f0" }} />
-        <div style={{ height: 12, width: "100%", borderRadius: 6, background: "#f0f0f0" }} />
-        <div style={{ height: 12, width: "70%", borderRadius: 6, background: "#f0f0f0" }} />
-      </div>
-    </div>
-  );
-}
-
-// ── Course card ───────────────────────────────────────────────────────────────
-function CourseCard({ course }: { course: Course }) {
-  const [hovered, setHovered] = useState(false);
-  const cc = categoryColors[course.category];
-  const lc = levelColors[course.level];
-  const tg = course.tag ? tagColors[course.tag] : null;
+// ── Course Card ───────────────────────────────────────────────────────────────
+function CourseCard({ course }: { course: typeof COURSES[0] }) {
+  const [hov, setHov] = useState(false);
   const router = useRouter();
+  const lm = LEVEL_META[course.level];
 
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
       style={{
-        background: "#ffffff", borderRadius: 20, overflow: "hidden",
-        border: "1px solid rgba(79,70,229,0.08)",
-        boxShadow: hovered ? "0 24px 56px rgba(79,70,229,0.15)" : "0 3px 16px rgba(0,0,0,0.07)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "box-shadow 0.3s ease, transform 0.3s ease",
-        display: "flex", flexDirection: "column",
+        background: "#fff",
+        borderRadius: 14,
+        overflow: "hidden",
+        border: hov ? `1.5px solid ${course.accent}` : "1.5px solid #e5e7eb",
+        boxShadow: hov ? `0 16px 48px ${course.accent}1a` : "0 2px 12px rgba(0,0,0,0.05)",
+        transform: hov ? "translateY(-5px)" : "none",
+        transition: "all 0.25s ease",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* Gradient header */}
+      {/* Top accent bar */}
+      <div style={{ height: 4, background: course.accent }} />
+
+      {/* Header */}
       <div style={{
-        height: 120, position: "relative",
-        background: `linear-gradient(135deg,${course.bgFrom},${course.bgTo})`,
-        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "22px 24px 18px",
+        background: course.accentLight,
+        borderBottom: `1px solid ${course.accent}18`,
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+        gap: 12,
       }}>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,rgba(255,255,255,0.1) 0%,transparent 55%)", pointerEvents: "none" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 12,
+            background: "#fff",
+            border: `1px solid ${course.accent}22`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 26, flexShrink: 0,
+            transition: "transform 0.25s",
+            transform: hov ? "scale(1.1)" : "none",
+          }}>{course.icon}</div>
+          <div>
+            <div style={{
+              fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+              letterSpacing: "1.4px", color: course.accent, marginBottom: 6,
+            }}>{course.badge}</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              <span style={{
+                fontSize: 10, fontWeight: 600,
+                padding: "3px 10px", borderRadius: 20,
+                background: lm.bg, color: lm.text,
+              }}>{course.level}</span>
+              <span style={{
+                fontSize: 10, fontWeight: 600,
+                padding: "3px 10px", borderRadius: 20,
+                background: "rgba(0,0,0,0.05)", color: "#6b7280",
+              }}>⏱ {course.duration}</span>
+              {course.certificate && (
+                <span style={{
+                  fontSize: 10, fontWeight: 600,
+                  padding: "3px 10px", borderRadius: 20,
+                  background: "#fef9c3", color: "#854d0e",
+                }}>🏅 Certificate</span>
+              )}
+            </div>
+          </div>
+        </div>
         <span style={{
-          fontSize: 52, filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.22))",
-          transform: hovered ? "scale(1.1)" : "scale(1)",
-          transition: "transform 0.3s ease", position: "relative", zIndex: 1,
-        }}>{course.icon}</span>
-        {tg && (
-          <span style={{
-            position: "absolute", top: 12, right: 12,
-            fontFamily: "'Space Grotesk',sans-serif", fontSize: 9, fontWeight: 800,
-            padding: "3px 10px", borderRadius: 20, letterSpacing: "0.6px", textTransform: "uppercase",
-            background: tg.bg, color: tg.color,
-          }}>{course.tag}</span>
-        )}
-        {course.certificate && (
-          <span style={{
-            position: "absolute", bottom: 10, left: 12,
-            fontFamily: "'Space Grotesk',sans-serif", fontSize: 9, fontWeight: 700,
-            padding: "3px 9px", borderRadius: 20,
-            background: "rgba(255,255,255,0.2)", border: "1px solid rgba(255,255,255,0.4)",
-            color: "#ffffff", letterSpacing: "0.4px",
-          }}>🏅 Certificate</span>
-        )}
+          flexShrink: 0,
+          background: course.tagBg, color: "#fff",
+          fontSize: 9, fontWeight: 800,
+          padding: "4px 11px", borderRadius: 20,
+          letterSpacing: "0.6px", textTransform: "uppercase",
+        }}>{course.tag}</span>
       </div>
 
       {/* Body */}
-      <div style={{ padding: "18px 20px 22px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
-          <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 9, fontWeight: 800, padding: "3px 9px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.5px", background: cc.bg, color: cc.text }}>{course.category}</span>
-          <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 9, fontWeight: 700, padding: "3px 9px", borderRadius: 20, background: lc.bg, color: lc.text }}>{course.level}</span>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, color: "#9ca3af", marginLeft: "auto" }}>🌐 {course.language}</span>
+      <div style={{ padding: "22px 24px 0", flex: 1, display: "flex", flexDirection: "column" }}>
+        <h3 style={{
+          fontSize: 17, fontWeight: 700, color: "#111827",
+          lineHeight: 1.3, marginBottom: 6,
+        }}>{course.title}</h3>
+
+        <p style={{
+          fontSize: 12.5, fontWeight: 600, fontStyle: "italic",
+          color: course.accent, marginBottom: 12,
+        }}>{course.tagline}</p>
+
+        <p style={{
+          fontSize: 13, color: "#6b7280", lineHeight: 1.8, marginBottom: 18,
+        }}>{course.desc}</p>
+
+        {/* Subjects */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 18, flexWrap: "wrap" }}>
+          {course.subjects.map(s => (
+            <span key={s} style={{
+              fontSize: 10, fontWeight: 700,
+              padding: "4px 12px", borderRadius: 6,
+              background: course.accentLight, color: course.accent,
+              border: `1px solid ${course.accent}25`,
+            }}>{s}</span>
+          ))}
         </div>
 
-        <h3 style={{ fontFamily: "'Fraunces',serif", fontSize: 17, fontWeight: 700, color: "#0f0c29", lineHeight: 1.22, letterSpacing: "-0.2px", marginBottom: 4 }}>
-          {course.title}
-        </h3>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#4f46e5", fontWeight: 600, fontStyle: "italic", marginBottom: 8 }}>
-          {course.tagline}
-        </p>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12.5, color: "#6b7280", lineHeight: 1.68, marginBottom: 14 }}>
-          {course.desc}
-        </p>
-
-        <div style={{ marginBottom: 14 }}>
-          <StarRating rating={course.rating} />
-        </div>
-
-        {course.features.length > 0 && (
-          <div style={{ marginBottom: 16 }}>
-            <div style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 10, fontWeight: 700, color: "#4f46e5", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 8 }}>
-              What you&apos;ll learn
+        {/* Features */}
+        <div style={{ marginBottom: 22 }}>
+          <div style={{
+            fontSize: 9, fontWeight: 800, textTransform: "uppercase",
+            letterSpacing: "1.2px", color: "#9ca3af", marginBottom: 10,
+          }}>Programme Highlights</div>
+          {course.features.map((f, i) => (
+            <div key={i} style={{
+              display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 8,
+            }}>
+              <span style={{
+                width: 15, height: 15, borderRadius: "50%",
+                background: course.accentLight, color: course.accent,
+                fontSize: 8, fontWeight: 900,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0, marginTop: 2,
+              }}>✓</span>
+              <span style={{ fontSize: 12.5, color: "#374151", lineHeight: 1.55 }}>{f}</span>
             </div>
-            {course.features.map((f, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 7, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: "#374151", marginBottom: 5, lineHeight: 1.4 }}>
-                <span style={{ color: "#4f46e5", fontWeight: 700, marginTop: 1, flexShrink: 0 }}>✓</span>
-                {f}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Footer */}
-        <div style={{ paddingTop: 14, borderTop: "1px solid #f1f5f9", marginTop: "auto" }}>
-          <button
-            onClick={() => router.push("/Admission")}
-            style={{
-              width: "100%",
-              background: `linear-gradient(135deg,${course.bgFrom},${course.bgTo})`,
-              color: "#ffffff", border: "none", padding: "12px 20px", borderRadius: 10,
-              fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700,
-              cursor: "pointer", letterSpacing: "0.2px", boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-              transition: "opacity 0.2s, transform 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
-          >
-            Enroll Now →
-          </button>
+          ))}
         </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{
+        padding: "16px 24px 22px",
+        borderTop: "1px solid #f3f4f6",
+        marginTop: "auto",
+      }}>
+        <button
+          onClick={() => router.push("/Admission")}
+          style={{
+            width: "100%",
+            background: course.accent,
+            color: "#fff",
+            border: "none",
+            borderRadius: 9,
+            padding: "13px 20px",
+            fontSize: 13,
+            fontWeight: 700,
+            cursor: "pointer",
+            letterSpacing: "0.3px",
+            fontFamily: "inherit",
+            transition: "all 0.2s",
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.opacity = "0.88";
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.opacity = "1";
+            e.currentTarget.style.transform = "none";
+          }}
+        >
+          Enrol Now →
+        </button>
       </div>
     </div>
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+// ── Main Page ─────────────────────────────────────────────────────────────────
 export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("/api/courses");
-        const json = await res.json();
-        if (json.success) setCourses(json.data);
-        else setError(true);
-      } catch { setError(true); }
-      finally { setLoading(false); }
-    })();
-  }, []);
+  const [filter, setFilter] = useState("All");
+  const filtered = filterCourses(COURSES, filter);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
-        .cp-root,.cp-root *,.cp-root *::before,.cp-root *::after{box-sizing:border-box;margin:0;padding:0;}
-        .cp-root{font-family:'DM Sans',sans-serif;background:#f8f7ff;min-height:100vh;}
-        .cp-hero{background:linear-gradient(135deg,#0f0c29 0%,#1e1b4b 45%,#302b63 100%);padding:88px 8% 76px;text-align:center;position:relative;overflow:hidden;}
-        .cp-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
-        .cp-blob{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;}
-        .cp-blob-1{width:320px;height:320px;background:#7c3aed;opacity:0.13;top:-80px;right:-40px;}
-        .cp-blob-2{width:240px;height:240px;background:#4f46e5;opacity:0.13;bottom:-70px;left:-30px;}
-        .cp-blob-3{width:180px;height:180px;background:#fbbf24;opacity:0.06;top:10px;left:40%;}
-        .cp-hero-inner{position:relative;z-index:2;}
-        .cp-hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.35);color:#c4b5fd;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;padding:5px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:2px;margin-bottom:22px;}
-        .cp-badge-dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;animation:cpPulse 2s ease-in-out infinite;}
-        .cp-hero-title{font-family:'Fraunces',serif;font-size:clamp(38px,5.5vw,68px);font-weight:900;color:#fff;line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px;}
-        .cp-hero-title .gold{font-style:italic;color:#fbbf24;position:relative;display:inline-block;}
-        .cp-hero-title .gold::after{content:'';position:absolute;left:0;bottom:-5px;width:100%;height:3px;border-radius:2px;background:linear-gradient(90deg,#fbbf24,#f59e0b);}
-        .cp-hero-sub{font-size:15px;color:rgba(255,255,255,0.52);line-height:1.75;max-width:480px;margin:0 auto 40px;}
-        .cp-hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
-        .cp-stat-num{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:#fff;display:block;letter-spacing:-0.5px;}
-        .cp-stat-lbl{font-size:11px;color:rgba(255,255,255,0.45);display:block;margin-top:3px;}
-        .cp-section-heading{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0f0c29;letter-spacing:-0.3px;padding:36px 8% 28px;}
-        .cp-section-heading span{color:#4f46e5;font-style:italic;}
-        .cp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:0 8% 80px;}
-        .cp-empty{grid-column:1/-1;text-align:center;padding:80px 20px;color:#9ca3af;}
-        .cp-empty-icon{font-size:36px;margin-bottom:12px;}
-        .cp-empty-text{font-family:'DM Sans',sans-serif;font-size:14px;}
-        .cp-strip{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:52px 8%;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
-        .cp-strip-title{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:#fff;letter-spacing:-0.3px;margin-bottom:6px;}
-        .cp-strip-title span{color:#fbbf24;font-style:italic;}
-        .cp-strip-sub{font-size:13px;color:rgba(255,255,255,0.5);}
-        .cp-strip-form{display:flex;gap:10px;flex-wrap:wrap;}
-        .cp-strip-input{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:10px;padding:11px 18px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:260px;transition:border-color 0.2s;}
-        .cp-strip-input::placeholder{color:rgba(255,255,255,0.35);}
-        .cp-strip-input:focus{border-color:rgba(167,139,250,0.6);}
-        .cp-strip-btn{background:#fbbf24;color:#1e1b4b;border:none;border-radius:10px;padding:11px 22px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-        .cp-strip-btn:hover{background:#f59e0b;transform:translateY(-1px);}
-        @keyframes cpPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);}}
-        @keyframes cpShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-        @media(max-width:1024px){.cp-grid{grid-template-columns:repeat(2,1fr);}}
-        @media(max-width:640px){.cp-grid{grid-template-columns:1fr;padding:0 5% 60px;}.cp-hero{padding:60px 6% 56px;}.cp-hero-stats{gap:28px;}.cp-strip{flex-direction:column;padding:40px 6%;}.cp-strip-input{width:100%;}}
+        .cr-root, .cr-root *, .cr-root *::before, .cr-root *::after {
+          box-sizing: border-box; margin: 0; padding: 0;
+        }
+        .cr-root {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          background: #f6f7fb;
+          min-height: 100vh;
+          color: #111827;
+          --navy: #0d1b3e;
+          --gold: #b8962e;
+        }
+        .cr-hero {
+          background: var(--navy);
+          padding: 80px 8% 72px;
+          position: relative; overflow: hidden;
+        }
+        .cr-hero::before {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+          background-size: 52px 52px;
+        }
+        .cr-hero-glow {
+          position: absolute; top: -100px; right: -60px;
+          width: 480px; height: 480px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 65%);
+          pointer-events: none;
+        }
+        .cr-hero-inner { position: relative; z-index: 2; max-width: 820px; }
+        .cr-hero-badge {
+          display: inline-flex; align-items: center; gap: 8px;
+          border: 1px solid rgba(184,150,46,0.35);
+          padding: 6px 16px; border-radius: 3px; margin-bottom: 24px;
+        }
+        .cr-hero-badge-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--gold);
+          animation: crPulse 2.2s ease-in-out infinite;
+        }
+        .cr-hero-badge span {
+          font-size: 10px; font-weight: 600; color: var(--gold);
+          letter-spacing: 3px; text-transform: uppercase;
+        }
+        .cr-hero-title {
+          font-size: clamp(32px, 4.2vw, 54px);
+          font-weight: 700; color: #fff;
+          line-height: 1.12; letter-spacing: -0.8px; margin-bottom: 18px;
+        }
+        .cr-hero-title em { font-style: italic; color: var(--gold); }
+        .cr-hero-sub {
+          font-size: 15px; color: rgba(255,255,255,0.48);
+          line-height: 1.8; max-width: 540px;
+          margin-bottom: 50px; font-weight: 400;
+        }
+        .cr-stats { display: flex; flex-wrap: wrap; }
+        .cr-stat {
+          padding-right: 36px; margin-right: 36px;
+          border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .cr-stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+        .cr-stat-n {
+          font-size: 30px; font-weight: 700; color: var(--gold);
+          display: block; letter-spacing: -0.5px; line-height: 1; margin-bottom: 5px;
+        }
+        .cr-stat-l { font-size: 11px; color: rgba(255,255,255,0.36); }
+        .cr-filter-bar {
+          background: #fff; border-bottom: 1px solid #e5e7eb;
+          padding: 18px 8%;
+          display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+          position: sticky; top: 0; z-index: 10;
+        }
+        .cr-filter-label {
+          font-size: 10px; font-weight: 700; color: #bbb;
+          letter-spacing: 1.5px; text-transform: uppercase; margin-right: 6px;
+        }
+        .cr-filter-btn {
+          background: transparent; border: 1.5px solid #e5e7eb;
+          border-radius: 7px; padding: 7px 16px;
+          font-size: 12px; font-weight: 600; color: #6b7280;
+          cursor: pointer; transition: all 0.18s; font-family: inherit;
+        }
+        .cr-filter-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+        .cr-filter-btn:hover:not(.active) { border-color: var(--navy); color: var(--navy); }
+        .cr-section-header {
+          padding: 40px 8% 8px;
+          display: flex; align-items: baseline;
+          justify-content: space-between; flex-wrap: wrap; gap: 8px;
+        }
+        .cr-section-title { font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: -0.2px; }
+        .cr-section-title em { font-style: italic; color: #7c3aed; }
+        .cr-section-count { font-size: 12px; color: #bbb; font-weight: 500; }
+        .cr-grid {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 22px; padding: 22px 8% 80px;
+        }
+        .cr-strip {
+          background: var(--navy);
+          padding: 68px 8%;
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 60px; align-items: center;
+          position: relative; overflow: hidden;
+        }
+        .cr-strip::before {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+          background-size: 52px 52px;
+        }
+        .cr-strip-inner { position: relative; z-index: 1; }
+        .cr-strip-label {
+          font-size: 10px; font-weight: 700; color: var(--gold);
+          letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+        }
+        .cr-strip-title {
+          font-size: clamp(22px, 2.6vw, 34px); font-weight: 700;
+          color: #fff; line-height: 1.25; margin-bottom: 14px; letter-spacing: -0.3px;
+        }
+        .cr-strip-title em { font-style: italic; color: var(--gold); }
+        .cr-strip-sub {
+          font-size: 14px; color: rgba(255,255,255,0.42);
+          line-height: 1.8; margin-bottom: 28px;
+        }
+        .cr-strip-btn {
+          background: var(--gold); color: #0d1b3e;
+          border: none; border-radius: 9px; padding: 13px 30px;
+          font-size: 13.5px; font-weight: 700; cursor: pointer;
+          font-family: inherit; transition: all 0.2s;
+        }
+        .cr-strip-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .cr-chips {
+          position: relative; z-index: 1;
+          display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        .cr-chip {
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(184,150,46,0.18);
+          border-radius: 12px; padding: 18px 16px; transition: all 0.22s;
+        }
+        .cr-chip:hover { background: rgba(184,150,46,0.07); border-color: rgba(184,150,46,0.36); }
+        .cr-chip-icon { font-size: 20px; margin-bottom: 8px; }
+        .cr-chip-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.82); margin-bottom: 3px; }
+        .cr-chip-sub { font-size: 11px; color: rgba(255,255,255,0.36); }
+        @keyframes crPulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.5);} }
+        @media(max-width:1060px){.cr-grid{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:640px){
+          .cr-grid{grid-template-columns:1fr;padding:18px 5% 60px;}
+          .cr-hero{padding:56px 6% 56px;}
+          .cr-stats{gap:18px;}
+          .cr-stat{border-right:none;padding-right:0;margin-right:0;}
+          .cr-strip{grid-template-columns:1fr;gap:32px;padding:52px 6%;}
+          .cr-filter-bar{padding:14px 5%;}
+          .cr-section-header{padding:28px 5% 8px;}
+        }
       `}</style>
 
-      <div className="cp-root">
+      <div className="cr-root">
 
-        {/* Hero */}
-        <div className="cp-hero">
-          <div className="cp-blob cp-blob-1" /><div className="cp-blob cp-blob-2" /><div className="cp-blob cp-blob-3" />
-          <div className="cp-hero-inner">
-            <div className="cp-hero-badge"><span className="cp-badge-dot" />Learn · Speak · Succeed</div>
-            <h1 className="cp-hero-title">Our <span className="gold">Courses</span></h1>
-            <p className="cp-hero-sub">Expert-led English courses designed to boost your fluency, confidence and career — at the most affordable price in India.</p>
-            <div className="cp-hero-stats">
-              {[["12+", "Courses"], ["5,000+", "Students"], ["97%", "Success Rate"], ["₹999", "Starting At"]].map(([n, l]) => (
-                <div key={l} style={{ textAlign: "center" }}>
-                  <span className="cp-stat-num">{n}</span>
-                  <span className="cp-stat-lbl">{l}</span>
+        {/* ═══ HERO ═══ */}
+        <section className="cr-hero">
+          <div className="cr-hero-glow" />
+          <div className="cr-hero-inner">
+            <div className="cr-hero-badge">
+              <span className="cr-hero-badge-dot" />
+              <span>Academic Programmes — The Science Centre</span>
+            </div>
+            <h1 className="cr-hero-title">
+              Structured Learning Pathways<br />
+              for <em>JEE Excellence</em>
+            </h1>
+            <p className="cr-hero-sub">
+              Outcome-driven academic programmes for Class 11, Class 12 Boards,
+              JEE Main and JEE Advanced — each meticulously designed to deliver
+              conceptual mastery, measurable progress, and top-rank results.
+            </p>
+            <div className="cr-stats">
+              {[
+                { n: "6",    l: "Academic Programmes" },
+                { n: "100+", l: "Students Enrolled" },
+                { n: "97%",  l: "Success Rate" },
+                { n: "10+",  l: "Years of Excellence" },
+              ].map(s => (
+                <div key={s.l} className="cr-stat">
+                  <span className="cr-stat-n">{s.n}</span>
+                  <span className="cr-stat-l">{s.l}</span>
                 </div>
               ))}
             </div>
           </div>
+        </section>
+
+        {/* ═══ FILTER BAR ═══ */}
+        <div className="cr-filter-bar">
+          <span className="cr-filter-label">Filter by:</span>
+          {FILTERS.map(f => (
+            <button
+              key={f}
+              className={`cr-filter-btn${filter === f ? " active" : ""}`}
+              onClick={() => setFilter(f)}
+            >{f}</button>
+          ))}
         </div>
 
-        {/* Section heading */}
-        <h2 className="cp-section-heading">Browse <span>Courses</span></h2>
+        {/* ═══ GRID ═══ */}
+        <div className="cr-section-header">
+          <h2 className="cr-section-title">
+            {filter === "All" ? <>All <em>Programmes</em></> : <><em>{filter}</em> Programmes</>}
+          </h2>
+          <span className="cr-section-count">
+            {filtered.length} programme{filtered.length !== 1 ? "s" : ""} available
+          </span>
+        </div>
 
-        {/* Grid */}
-        <div className="cp-grid">
-          {loading ? (
-            [1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)
-          ) : error ? (
-            <div className="cp-empty">
-              <div className="cp-empty-icon">⚠️</div>
-              <div className="cp-empty-text">Failed to load courses. Please try again later.</div>
+        <div className="cr-grid">
+          {filtered.length === 0 ? (
+            <div style={{
+              gridColumn: "1/-1", textAlign: "center",
+              padding: "80px 20px", color: "#9ca3af", fontSize: 14,
+            }}>
+              No programmes match the selected filter.
             </div>
-          ) : courses.length === 0 ? (
-            <div className="cp-empty">
-              <div className="cp-empty-icon">📚</div>
-              <div className="cp-empty-text">No courses available yet. Check back soon!</div>
-            </div>
-          ) : (
-            courses.map(course => <CourseCard key={course._id} course={course} />)
-          )}
+          ) : filtered.map(c => <CourseCard key={c.id} course={c} />)}
         </div>
 
-        {/* Bottom strip */}
-        <div className="cp-strip">
-          <div>
-            <div className="cp-strip-title">Not Sure Which <span>Course?</span> 🤔</div>
-            <p className="cp-strip-sub">Drop your email and we&apos;ll help you pick the right one for your goals.</p>
+        {/* ═══ CTA STRIP ═══ */}
+        <section className="cr-strip">
+          <div className="cr-strip-inner">
+            <div className="cr-strip-label">Begin Your Journey</div>
+            <h2 className="cr-strip-title">
+              Academic Excellence Begins<br />with the <em>Right Programme</em>
+            </h2>
+            <p className="cr-strip-sub">
+              Hundreds of students have transformed their academic trajectories
+              through our structured programmes — securing admissions to IITs,
+              NITs, and top engineering institutions across India.
+            </p>
+            <button
+              className="cr-strip-btn"
+              onClick={() => { if (typeof window !== "undefined") window.location.href = "/Admission"; }}
+            >
+              Enrol Now →
+            </button>
           </div>
-          <div className="cp-strip-form">
-            <input type="email" className="cp-strip-input" placeholder="Enter your email address" />
-            <button className="cp-strip-btn">Get Guidance →</button>
+          <div className="cr-chips">
+            {[
+              { icon: "💻", label: "100% Online Delivery",    sub: "Learn from any location" },
+              { icon: "🎥", label: "Live Interactive Classes", sub: "Real-time instruction" },
+              { icon: "📖", label: "Curated Study Material",   sub: "DPP sheets & resources" },
+              { icon: "💬", label: "Dedicated Doubt Support",  sub: "Available at all times" },
+            ].map(c => (
+              <div key={c.label} className="cr-chip">
+                <div className="cr-chip-icon">{c.icon}</div>
+                <div className="cr-chip-label">{c.label}</div>
+                <div className="cr-chip-sub">{c.sub}</div>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
 
       </div>
     </>

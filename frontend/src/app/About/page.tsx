@@ -135,7 +135,6 @@ export default function AboutUs() {
           border: 1px solid rgba(201,168,76,0.07);
           pointer-events: none;
         }
-        /* The teacher image — natural size, no fill */
         .ab-teacher-img {
           position: relative !important;
           width: auto !important;
@@ -432,16 +431,16 @@ export default function AboutUs() {
           <div className="ab-hero-left">
             <div className="ab-badge">
               <span className="ab-badge-dot" />
-              <span>The English Centre</span>
+              <span>The Science Centre</span>
             </div>
             <h1 className="ab-hero-title">
-              Where Confidence
-              <em>Finds Its Voice.</em>
+              Where Concepts
+              <em>Become Results.</em>
             </h1>
             <p className="ab-hero-desc">
-              India&apos;s most trusted English language coaching platform — helping
-              students, professionals, and dreamers communicate with clarity,
-              conviction, and purpose.
+              India&apos;s most trusted JEE coaching platform — preparing students for
+              JEE Main, JEE Advanced, and Class 12 Boards with clarity,
+              depth, and proven strategy.
             </p>
             <div className="ab-stats-row">
               {[
@@ -463,12 +462,12 @@ export default function AboutUs() {
             <div className="ab-hero-arc-2" />
             <Image
               src={teacher}
-              alt="Mrs. Anjali Chatterjee – Lead Instructor & Founder"
+              alt="[Sir's Name] – Lead Instructor & Founder"
               className="ab-teacher-img"
               priority
             />
             <div className="ab-name-plate">
-              <div className="ab-name-plate-name">Mrs. Anjali Chatterjee</div>
+              <div className="ab-name-plate-name">[Sir&apos;s Name]</div>
               <div className="ab-name-plate-role">Lead Instructor &amp; Founder</div>
             </div>
           </div>
@@ -479,32 +478,31 @@ export default function AboutUs() {
           <div className="ab-story-col">
             <div className="ab-section-label">Our Story</div>
             <h2 className="ab-section-title">
-              A Language Institute Built on<br />
-              <em>Passion &amp; Purpose</em>
+              A Coaching Institute Built on<br />
+              <em>Science &amp; Strategy</em>
             </h2>
             <p className="ab-story-text">
-              <strong>The English Centre</strong> was founded with a single mission: to bridge the
-              gap between knowing English and truly <strong>owning it</strong>. We believe language
-              is not just a skill — it&apos;s a superpower that opens doors, builds careers, and
-              transforms lives.
+              <strong>The Science Centre</strong> was founded with a single mission: to bridge the
+              gap between understanding concepts and truly <strong>mastering them</strong>. We believe
+              education is not just a process — it&apos;s a launchpad that opens the doors to
+              IITs, NITs, and top engineering colleges across India.
             </p>
             <div className="ab-quote">
               <div className="ab-quote-text">
-                &ldquo;We don&apos;t just teach grammar — we build the confidence to use it.&rdquo;
+                &ldquo;We don&apos;t just teach formulas — we build the intuition to derive them.&rdquo;
               </div>
-              <div className="ab-quote-author">— Mrs. Anjali Chatterjee, Founder</div>
+              <div className="ab-quote-author">— [Sir&apos;s Name], Founder</div>
             </div>
             <p className="ab-story-text">
-              From IELTS preparation to spoken English, vocabulary building to personality
-              development — every programme delivers <strong>real, measurable outcomes</strong>.
-              Our 100% online model means quality education reaches you wherever you are,
-              on your schedule.
+              From JEE Main to JEE Advanced, Class 12 Boards to competitive problem-solving —
+              every programme delivers <strong>real, measurable outcomes</strong>. Our online
+              model means expert coaching reaches you wherever you are, on your schedule.
             </p>
             <div className="ab-pillars">
               {[
-                { icon: "🎓", title: "Comprehensive English Training", desc: "IELTS prep, vocabulary, spoken English, and personality development — every dimension covered." },
-                { icon: "👩‍🏫", title: "Expert-Led, Personally Guided",  desc: "Over a decade of expertise with one-on-one career counselling woven into every journey." },
-                { icon: "🚀", title: "Career-Focused Outcomes",          desc: "Interviews, presentations, corporate environments, global opportunities — we prepare you for all." },
+                { icon: "🔬", title: "Physics, Chemistry & Maths", desc: "Complete JEE Main, JEE Advanced, and Class 12 syllabus — every chapter, every concept covered." },
+                { icon: "👨‍🏫", title: "M.Sc Qualified, Personally Guided", desc: "B.Sc and M.Sc qualified educator with a decade of JEE coaching and one-on-one mentorship." },
+                { icon: "🚀", title: "Result-Focused Preparation",          desc: "Rank improvement, board marks, IIT/NIT admissions — we prepare you for every target." },
               ].map((p, i) => (
                 <div key={i} className="ab-pillar">
                   <div className="ab-pillar-icon">{p.icon}</div>
@@ -523,33 +521,33 @@ export default function AboutUs() {
                 <div className="ab-profile-avatar">
                   <Image
                     src={teacher}
-                    alt="Mrs. Anjali Chatterjee"
+                    alt="[Sir's Name]"
                     fill
                     sizes="60px"
                     style={{ objectFit: "cover", objectPosition: "top center" }}
                   />
                 </div>
                 <div>
-                  <div className="ab-profile-name">Mrs. Anjali Chatterjee</div>
+                  <div className="ab-profile-name">[Sir&apos;s Name]</div>
                   <div className="ab-profile-role">Lead Instructor &amp; Founder</div>
                 </div>
               </div>
               <div className="ab-profile-body">
                 <p className="ab-profile-bio">
-                  With over a decade of English language training, Mrs. Chatterjee has helped
-                  thousands of students master spoken English, ace IELTS, and unlock career
-                  opportunities through confident communication.
+                  With a B.Sc and M.Sc in his field and over a decade of JEE coaching experience,
+                  he has guided hundreds of students to crack JEE Main, JEE Advanced, and score
+                  top marks in Class 12 Boards through concept clarity and smart strategy.
                 </p>
                 <div className="ab-tags">
                   <span className="ab-tag">10+ Yrs Exp.</span>
-                  <span className="ab-tag">IELTS Expert</span>
-                  <span className="ab-tag">Career Counsellor</span>
-                  <span className="ab-tag">Spoken English</span>
+                  <span className="ab-tag">JEE Expert</span>
+                  <span className="ab-tag">M.Sc Qualified</span>
+                  <span className="ab-tag">12th Boards</span>
                 </div>
               </div>
             </div>
             <div className="ab-cta-row">
-              <button className="ab-btn-primary">Start Learning Today →</button>
+              <button className="ab-btn-primary">Start Preparing Today →</button>
               <button className="ab-btn-ghost">View Courses</button>
             </div>
           </div>
@@ -562,10 +560,10 @@ export default function AboutUs() {
           </h3>
           <div className="ab-features-grid">
             {[
-              { icon: "💻", title: "100% Online",       desc: "Learn from home, office, or anywhere. Zero commute, maximum quality." },
+              { icon: "💻", title: "100% Online",       desc: "Learn from home, hostel, or anywhere. Zero commute, maximum quality." },
               { icon: "🎥", title: "Live Sessions",      desc: "Real-time interactive classes with your instructor every week." },
               { icon: "⏺️", title: "Recorded Backups",  desc: "Every session recorded so you can replay and reinforce learning." },
-              { icon: "📅", title: "Flexible Timing",   desc: "Schedule sessions around your life, not the other way around." },
+              { icon: "📅", title: "Flexible Timing",   desc: "Schedule sessions around your school timetable, not the other way around." },
             ].map((f, i) => (
               <div key={i} className="ab-feature">
                 <div className="ab-feature-icon">{f.icon}</div>
@@ -581,11 +579,11 @@ export default function AboutUs() {
           <div className="ab-footer-left">
             <div className="ab-footer-label">Ready to Begin?</div>
             <h2 className="ab-footer-title">
-              Your Journey to <em>Confident</em><br />English Starts Here
+              Your Journey to <em>IIT &amp; Beyond</em><br />Starts Here
             </h2>
             <p className="ab-footer-desc">
-              Join hundreds of students who&apos;ve transformed how they speak, write, and present
-              themselves to the world — with The English Centre.
+              Join hundreds of students who&apos;ve cracked JEE Main, JEE Advanced, and aced
+              their Class 12 Boards — all with The Science Centre.
             </p>
             <button className="ab-footer-btn">Enrol Now →</button>
           </div>
@@ -593,7 +591,7 @@ export default function AboutUs() {
             {[
               { icon: "📱", label: "Mobile Friendly",     sub: "Learn on any device" },
               { icon: "🌐", label: "Learn Anywhere",       sub: "No location limits" },
-              { icon: "🏅", label: "Certified Instructor", sub: "10+ years expertise" },
+              { icon: "🏅", label: "M.Sc Qualified",       sub: "10+ years expertise" },
               { icon: "💬", label: "Doubt Support",        sub: "Always available" },
             ].map((c, i) => (
               <div key={i} className="ab-fchip">

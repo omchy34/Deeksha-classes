@@ -1,27 +1,34 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.css"
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
-import OfferPopup from "@/components/OfferPopup";
+
 
 export const metadata: Metadata = {
   title: {
-    default: "The English Center — Master English with Confidence",
-    template: "%s | The English Center",
+    default: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
+    template: "%s | Deeksha Classes",
   },
   description:
-    "The English Center is a premier English learning institute offering spoken English, IELTS, grammar, and communication courses for students and professionals.",
+    "Deeksha Classes in Bangali Tola, Laheria Sarai offers expert JEE coaching for Class 11th & 12th students. Specialized in Physics, Chemistry, and Maths (PCM). Join now for IIT JEE Mains & Advanced preparation.",
 
   keywords: [
-    "English learning center",
-    "spoken English classes",
-    "IELTS coaching",
-    "English grammar course",
-    "English institute India",
-    "communication skills",
-    "The English Center",
+    "Deeksha Classes",
+    "JEE coaching Laheria Sarai",
+    "JEE coaching Bangali Tola",
+    "IIT JEE coaching Darbhanga",
+    "class 11 JEE tuition Laheria Sarai",
+    "class 12 JEE tuition Laheria Sarai",
+    "PCM coaching Laheria Sarai",
+    "Physics tuition Laheria Sarai",
+    "Chemistry tuition Laheria Sarai",
+    "Maths tuition Laheria Sarai",
+    "JEE Mains coaching Bihar",
+    "JEE Advanced preparation Laheria Sarai",
+    "best coaching institute Laheria Sarai",
+    "11th 12th science tuition Darbhanga",
   ],
 
   icons: {
@@ -33,25 +40,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "The English Center",
-    title: "The English Center — Master English with Confidence",
+    siteName: "Deeksha Classes",
+    title: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
     description:
-      "Join The English Center and transform your English speaking, writing, and communication skills.",
+      "Join Deeksha Classes in Bangali Tola, Laheria Sarai for expert JEE Mains & Advanced coaching. Physics, Chemistry & Maths for Class 11th & 12th. Enroll today!",
     images: [
       {
         url: "/logo_icon.png",
         width: 800,
         height: 800,
-        alt: "The English Center",
+        alt: "Deeksha Classes — JEE Coaching Laheria Sarai",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "The English Center — Master English with Confidence",
+    title: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
     description:
-      "Join The English Center and transform your English speaking, writing, and communication skills.",
+      "Join Deeksha Classes in Bangali Tola, Laheria Sarai for expert JEE Mains & Advanced coaching. Physics, Chemistry & Maths for Class 11th & 12th. Enroll today!",
     images: ["/logo_icon.png"],
   },
 };
@@ -63,7 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Preloader />
         <Navbar />
         {children}
-        <OfferPopup />
+        
         <Footer />
       </body>
     </html>

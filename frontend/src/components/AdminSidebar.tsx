@@ -17,7 +17,6 @@ const nav = [
     items: [
       { label: "Gallery",    href: "/admin/gallery",    icon: "◈" },
       { label: "Admissions",   href: "/admin/admission",   icon: "◫" },
-      { label: "Courses", href: "/admin/courses", icon: "⬡" },
     ],
   },
   {

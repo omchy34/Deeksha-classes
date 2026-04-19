@@ -231,7 +231,7 @@ export default function Navbar() {
           {/* LEFT — Logo */}
           <Link href="/" className="logo-wrap">
             <div className="logo-circle">
-              <Image src="/logo_icon.png" alt="The English Centre" width={400} height={400} />
+              <Image src="/logo_icon.jpg" className="rounded-full" alt="The English Centre" width={400} height={400} />
             </div>
             <div className="logo-text-block">
               <p style={{
@@ -242,7 +242,7 @@ export default function Navbar() {
                 margin: 0,
                 letterSpacing: "-0.2px",
                 whiteSpace: "nowrap",
-              }}>The English Center</p>
+              }}>Deeksha Classes</p>
               <p style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 400,
@@ -253,7 +253,7 @@ export default function Navbar() {
                 textTransform: "uppercase",
                 marginTop: "2px",
                 whiteSpace: "nowrap",
-              }}>Gaurented sucess in carrer growth</p>
+              }}>सा विद्या या विमुक्तये</p>
             </div>
           </Link>
 
