@@ -192,10 +192,7 @@ export default function Navbar() {
           display: flex; align-items: center; gap: 10px;
           text-decoration: none; min-width: 0;
         }
-        .logo-wrap:hover .logo-circle {
-          
-          
-        }
+       
 
         /* Always show logo text on ALL screen sizes */
         .logo-text-block { display: block; line-height: 1; }

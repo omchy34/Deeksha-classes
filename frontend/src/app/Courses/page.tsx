@@ -273,25 +273,83 @@ function CourseCard({ course }: { course: typeof COURSES[0] }) {
         </div>
 
         {/* Features */}
-        <div style={{ marginBottom: 22 }}>
-          <div style={{
-            fontSize: 9, fontWeight: 800, textTransform: "uppercase",
-            letterSpacing: "1.2px", color: "#9ca3af", marginBottom: 10,
-          }}>Programme Highlights</div>
-          {course.features.map((f, i) => (
-            <div key={i} style={{
-              display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 8,
-            }}>
-              <span style={{
-                width: 15, height: 15, borderRadius: "50%",
-                background: course.accentLight, color: course.accent,
-                fontSize: 8, fontWeight: 900,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0, marginTop: 2,
-              }}>✓</span>
-              <span style={{ fontSize: 12.5, color: "#374151", lineHeight: 1.55 }}>{f}</span>
-            </div>
-          ))}
+        {/* Features */}
+<div style={{ marginBottom: 22 }}>
+  <div style={{
+    fontSize: 9, fontWeight: 800, textTransform: "uppercase",
+    letterSpacing: "1.2px", color: "#9ca3af", marginBottom: 10,
+  }}>
+    Programme Highlights
+  </div>
+
+  {course.features.map((f, i) => (
+    <div key={i} style={{
+      display: "flex",
+      gap: 9,
+      alignItems: "flex-start",
+      marginBottom: 8,
+    }}>
+      <span style={{
+        width: 15,
+        height: 15,
+        borderRadius: "50%",
+        background: course.accentLight,
+        color: course.accent,
+        fontSize: 8,
+        fontWeight: 900,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        marginTop: 2,
+      }}>
+        ✓
+      </span>
+      <span style={{
+        fontSize: 12.5,
+        color: "#374151",
+        lineHeight: 1.55
+      }}>
+        {f}
+      </span>
+    </div>
+  ))}
+</div>
+
+
+        {/* Footer */}
+        <div style={{ paddingTop: 14, borderTop: "1px solid #f1f5f9", marginTop: "auto", display: "flex", gap: 8 }}>
+          <button
+            onClick={() => router.push("/Admission")}
+            style={{
+              flex: 1,
+              background: course.accent,
+              color: "#ffffff", border: "none", padding: "12px 16px", borderRadius: 10,
+              fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", letterSpacing: "0.2px", boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
+              transition: "opacity 0.2s, transform 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+          >
+            Enroll Now →
+          </button>
+          <button
+            onClick={() => router.push("/Demo-vid")}
+            style={{
+              flex: 1,
+              background: "transparent",
+              color: "#4f46e5", border: "1.5px solid #4f46e5", padding: "12px 16px", borderRadius: 10,
+              fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", letterSpacing: "0.2px",
+              transition: "background 0.2s, color 0.2s, transform 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = "#4f46e5"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#4f46e5"; e.currentTarget.style.transform = "translateY(0)"; }}
+          >
+            View Demo ▶
+          </button>
+
         </div>
       </div>
 
