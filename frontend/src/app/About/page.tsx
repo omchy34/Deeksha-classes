@@ -467,7 +467,7 @@ export default function AboutUs() {
               priority
             />
             <div className="ab-name-plate">
-              <div className="ab-name-plate-name">[Sir&apos;s Name]</div>
+              <div className="ab-name-plate-name">Sharvan jha</div>
               <div className="ab-name-plate-role">Lead Instructor &amp; Founder</div>
             </div>
           </div>
@@ -491,7 +491,7 @@ export default function AboutUs() {
               <div className="ab-quote-text">
                 &ldquo;We don&apos;t just teach formulas — we build the intuition to derive them.&rdquo;
               </div>
-              <div className="ab-quote-author">— [Sir&apos;s Name], Founder</div>
+              <div className="ab-quote-author">— Sharvan jha, Founder</div>
             </div>
             <p className="ab-story-text">
               From JEE Main to JEE Advanced, Class 12 Boards to competitive problem-solving —
@@ -528,7 +528,7 @@ export default function AboutUs() {
                   />
                 </div>
                 <div>
-                  <div className="ab-profile-name">[Sir&apos;s Name]</div>
+                  <div className="ab-profile-name">Sharvan jha</div>
                   <div className="ab-profile-role">Lead Instructor &amp; Founder</div>
                 </div>
               </div>

@@ -6,60 +6,49 @@ import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
 
 
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://deeksha-classes.vercel.app"),
+
   title: {
-    default: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
+    default: "Deeksha Classes — Best JEE Coaching in Laheria Sarai",
     template: "%s | Deeksha Classes",
   },
+
   description:
-    "Deeksha Classes in Bangali Tola, Laheria Sarai offers expert JEE coaching for Class 11th & 12th students. Specialized in Physics, Chemistry, and Maths (PCM). Join now for IIT JEE Mains & Advanced preparation.",
-
-  keywords: [
-    "Deeksha Classes",
-    "JEE coaching Laheria Sarai",
-    "JEE coaching Bangali Tola",
-    "IIT JEE coaching Darbhanga",
-    "class 11 JEE tuition Laheria Sarai",
-    "class 12 JEE tuition Laheria Sarai",
-    "PCM coaching Laheria Sarai",
-    "Physics tuition Laheria Sarai",
-    "Chemistry tuition Laheria Sarai",
-    "Maths tuition Laheria Sarai",
-    "JEE Mains coaching Bihar",
-    "JEE Advanced preparation Laheria Sarai",
-    "best coaching institute Laheria Sarai",
-    "11th 12th science tuition Darbhanga",
-  ],
-
-  icons: {
-    icon: "/logo_icon.png",
-    shortcut: "/logo_icon.png",
-    apple: "/logo_icon.png",
-  },
+    "Join Deeksha Classes in Laheria Sarai for IIT JEE Mains & Advanced preparation. Expert coaching in Physics, Chemistry & Maths.",
 
   openGraph: {
     type: "website",
-    locale: "en_IN",
-    siteName: "Deeksha Classes",
-    title: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
+    url: "https://deeksha-classes.vercel.app",
+    title: "Deeksha Classes — JEE Coaching Laheria Sarai",
     description:
-      "Join Deeksha Classes in Bangali Tola, Laheria Sarai for expert JEE Mains & Advanced coaching. Physics, Chemistry & Maths for Class 11th & 12th. Enroll today!",
+      "Top JEE coaching institute for Class 11 & 12. PCM experts. Enroll now!",
+
+    siteName: "Deeksha Classes",
+
     images: [
       {
-        url: "/logo_icon.png",
-        width: 800,
-        height: 800,
-        alt: "Deeksha Classes — JEE Coaching Laheria Sarai",
+        url: "/logo_icon.png", // IMPORTANT
+        width: 1200,
+        height: 630,
+        alt: "Deeksha Classes JEE Coaching",
       },
     ],
+
+    locale: "en_IN",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Deeksha Classes — Best JEE Coaching for 11th & 12th in Laheria Sarai",
+    title: "Deeksha Classes — JEE Coaching Laheria Sarai",
     description:
-      "Join Deeksha Classes in Bangali Tola, Laheria Sarai for expert JEE Mains & Advanced coaching. Physics, Chemistry & Maths for Class 11th & 12th. Enroll today!",
-    images: ["/logo_icon.png"],
+      "Best coaching for IIT JEE Mains & Advanced. Join today!",
+    images: ["/logo_icon.png"], // SAME IMAGE
+  },
+
+  icons: {
+    icon: "/logo_icon.png",
   },
 };
 
