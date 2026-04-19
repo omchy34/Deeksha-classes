@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/logo_icon.png", // IMPORTANT
+        url: "/logo_icon.jpg", // IMPORTANT
         width: 1200,
         height: 630,
         alt: "Deeksha Classes JEE Coaching",
@@ -48,18 +48,24 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/logo_icon.png",
+    icon: [
+      { url: "/logo_icon.jpg", type: "image/jpeg" },
+    ],
+    shortcut: ["/logo_icon.jpg"],
+    apple: [
+      { url: "/logo_icon.jpg", sizes: "180x180", type: "image/jpeg" },
+    ],
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <body>
         <Preloader />
         <Navbar />
         {children}
-        
+
         <Footer />
       </body>
     </html>
